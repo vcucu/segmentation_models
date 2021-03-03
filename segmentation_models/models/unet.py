@@ -138,20 +138,11 @@ def build_unet(
 
         x = decoder_block(decoder_filters[i], stage=i, use_batchnorm=use_batchnorm)(x, skip)
 
-    # model head (define number of output classes)
-    segmentation_head = layers.Conv2D(
-        filters=classes,
-        kernel_size=(3, 3),
-        padding='same',
-        use_bias=True,
-        kernel_initializer='glorot_uniform',
-        name='final_conv',
-    )(x)
-    segmentation_head = layers.Activation(activation, name=activation)(x)
+
     decoder_output = x
     
     # create keras model instance
-    model = models.Model(input_, outputs=[decoder_output, segmentation_head])
+    model = models.Model(input_, decoder_output)
 
     return model
 

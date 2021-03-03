@@ -148,9 +148,10 @@ def build_unet(
         name='final_conv',
     )(x)
     segmentation_head = layers.Activation(activation, name=activation)(x)
-
+    decoder_output = x
+    
     # create keras model instance
-    model = models.Model(input_, x)
+    model = models.Model(input_, outputs=[decoder_output, segmentation_head])
 
     return model
 
